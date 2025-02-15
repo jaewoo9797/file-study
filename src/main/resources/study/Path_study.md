@@ -78,6 +78,19 @@ assertEquals("baeldung",name1.toString());
 assertEquals("logs",name2.toString());
 ```
 
+## Resolve
+경로를 조합하여 고정된 루트 경로에 부분 경로를 추가한다. 이는 공통 부분은 두고 경로를 정의할 때 유용하다.
+
+```java
+import java.nio.file.Paths;
+
+Path basePath = Paths.get("/articles/baeldung/logs");
+Path addedPath = basePath.resolve("nextPath");
+```
+resolve 메서드를 이용하여 다음 디렉터리인 nextPath를 추가할 수 있다.
+/articles/baeldung/logs/nextPath
+
+
 이에 추가적으로 인덱스 범위를 이용하여 가져오는 방법과 부모 경로를 가져오는 방법 또한 존재합니다.
 하지만 스프린트 미션의 범위에서 벗어난다고 생각하여 추가적인 정리는 하지 않겠습니다. 추가로 더 알고 싶은 분들은 아래 참조의 사이트를 이용해서
 학습하시면 좋을것같습니다.
