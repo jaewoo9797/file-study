@@ -80,7 +80,36 @@ package java.nio.file.files 는 java **가상 머신(jvm)이 파일, 파일 속�
 public final calss Files
 ```
 `Files` 클래스는 파일, 디렉토리 또는 기타 유형의 파일에서 작동하는 **정적 메서드로만 구성**됩니다. 
+대부분의 경우, 여기에 정의된 메서드는 관련 **파일 시스템 제공자에게 파일 작업을 위임합니다.**
 
+`Files`는 모두 Static 메소드로 이루어져 있어 별도의 인스턴스 생성이 없습니다. 그리고 파일 또는 폴더의 주소 정보를 가진
+`Path` 클래스의 인스턴스를 매개변수로 메소드를 수행합니다.
+
+**Java NIO에 파일을 손쉽게 다룰 수 있는 유틸성 메소드를 모아둔 `Files` 클래스입니다. 주로 `Path` 인터페이스와 함께
+사용해서 파일과 디렉토리를 다루는데 사용됩니다.**
+
+주로 사용하는 메서드
+
+|Return|method name|description|
+|------|-----------|-----------|
+|boolean|isDrectory(Path p)|-폴더인지 검사|
+|boolean|exists(Path p)|-파일이 실제 존재하는지 검사|
+|Path|createDirectory(Path p)|-디렉토리 생성|
+|Path|createFile(Path p)|-파일 생성(이미 해당 파일이 있으면 예외발생)|
+
+```java
+        try {
+            if (!Files.exists(DIRECTORY)) {
+                Files.createDirectory(DIRECTORY);
+                System.out.println("디렉터리 생성완료");
+            }
+
+            Files.deleteIfExists(DIRECTORY);
+            System.out.println("디렉터리 삭제");
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
+```
 
 출처
 - [oracle.docs](https://docs.oracle.com/javase/7/docs/api/java/io/File.html)
