@@ -108,3 +108,97 @@ public static Path createDirectory(Path dir, FileAttribute<?>... attrse) throws 
 
 생성하려는 파일의 디렉터리가 존재하지 않으면 예외가 발생합니다.
 `java.nio.file.NoSuchFileException: C:\sutdy\files_demo\test\test.txt`
+
+## File 읽기 쓰기를 테스트
+```java
+package com.example.filetest;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class FilesTestDemo {
+
+    public static void main(String[] args) {
+        Path DIRECTORY = Paths.get("files", "test");
+        createDirectory(DIRECTORY);
+        System.out.println();
+        Path filePath = createFileTo(DIRECTORY);
+        System.out.println();
+        printFileInfo(filePath);
+        deleteFile(filePath);
+        writeToFile(filePath);
+        readToFile(filePath);
+    }
+
+    private static void deleteFile(Path filePath) {
+        try {
+            System.out.println("Files.deleteIfExists(filePath) = " + Files.deleteIfExists(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void createDirectory(Path directoryPath) {
+        if (!Files.exists(directoryPath)) {
+            try {
+                System.out.println("디렉터리를 생성합니다.");
+                Path createdDirectoryPath = Files.createDirectory(directoryPath);
+                System.out.println("디렉터리를 생성하였습니다. " + createdDirectoryPath.toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    private static Path createFileTo(Path DirectoryPath) {
+        String fileName = "text.txt";
+        Path filePath = DirectoryPath.resolve(fileName);
+        if (!Files.exists(filePath)) {
+            try {
+                Files.createFile(filePath);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return filePath;
+    }
+
+    private static void printFileInfo(Path filePath) {
+        System.out.println("filePath.toString() = " + filePath.toString());
+    }
+
+    private static void writeToFile(Path filePath) {
+        try (
+                FileWriter fw = new FileWriter(filePath.toFile());
+                BufferedWriter bw = new BufferedWriter(fw)
+        ) {
+            bw.write("테스트합니다.");
+            bw.newLine();
+            bw.flush();
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    private static void readToFile(Path filePath) {
+        try (
+                FileReader fr = new FileReader(filePath.toFile());
+                BufferedReader br = new BufferedReader(fr)
+        ) {
+            while (br.ready()) {
+                System.out.println(br.readLine());
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+```
